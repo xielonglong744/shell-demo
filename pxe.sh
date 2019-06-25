@@ -37,13 +37,15 @@ rpm_check()
 backages=(httpd tftp-server dhcp syslinux)
 for i in ${backages[@]}
 do 
-    if  ! rpm -qa | grep $i;then　
-         yum -y install $i &>/dev/null 
-    fi
+   if ! rpm -qa |grep -q $i ;then
+       yum -y install $i > /dev/null
+   fi
+     
 done
+
 }
 
-#生成应答文件系统最小安装
+#生成应答文件系统最小安装root密码为123456
 ks_cfg()
 {
 read -p "请输入无人值守http地址：" http
@@ -52,7 +54,7 @@ install
 url --url="http://$http/centos"
 keyboard 'us'
 lang en_US
-rootpw  --iscrypted  $1$IYhDedRq$VPe3mNiUXYMRhG4laO00j/
+rootpw  --iscrypted  $1$ttrrddww$NCFsDuoyDZJpbttnNQqsH/
 auth  --useshadow  --passalgo=sha512
 text
 firstboot  --disabled
